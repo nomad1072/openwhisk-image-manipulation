@@ -14,10 +14,20 @@ function test(params) {
     }
 
     const rs = s3.getObject(bucketParams).createReadStream();
-    console.log('Read Stream: ', rs);
-    return {
-        msg: 'Hello World'
+    const uploadParams = {
+        Bucket: 'mybucket-test-openwhisk',
+        Key: 'thumbnails/' + key
     }
+    const uploadPromise = s3.upload(uploadParams).promise();
+    uploadPromise.then((uploaded) => {
+        return {
+            msg: 'Image processed and uploaded'
+        }
+    }).catch((err) => {
+        return {
+            msg: 'Image processing failed'
+        }
+    })
 }
 
 exports.main = test
