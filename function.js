@@ -16,7 +16,8 @@ function test(params) {
     const rs = s3.getObject(bucketParams).createReadStream();
     const uploadParams = {
         Bucket: 'mybucket-test-openwhisk',
-        Key: 'thumbnails/' + key
+        Key: 'thumbnails/' + key,
+        Body: rs
     }
     const uploadPromise = s3.upload(uploadParams).promise();
     uploadPromise.then((uploaded) => {
