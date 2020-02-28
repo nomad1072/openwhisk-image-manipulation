@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
 const shell = require('shelljs');
+const path = require('path');
 const { aws_access_key, aws_secret_access_key } = require('./config.js');
 const s3 = new AWS.S3({
     accessKeyId: aws_access_key,
