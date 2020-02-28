@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.628.0",
+    "openwhisk": "^3.21.1",
+    "request": "^2.88.2",
     "shelljs": "^0.8.3"
   }
 }
