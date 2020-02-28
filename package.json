@@ -2,7 +2,7 @@
   "name": "openwhisk-function",
   "version": "1.0.0",
   "description": "",
-  "main": "config.js",
+  "main": "function.js",
   "dependencies": {
     "aws-sdk": "^2.628.0"
   },
