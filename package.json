@@ -4,7 +4,8 @@
   "description": "",
   "main": "function.js",
   "dependencies": {
-    "aws-sdk": "^2.628.0"
+    "aws-sdk": "^2.628.0",
+    "jimp": "^0.9.3"
   },
   "devDependencies": {},
   "scripts": {

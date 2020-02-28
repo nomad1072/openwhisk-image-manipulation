@@ -1,5 +1,6 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
+const jimp = require('jimp');
 const { aws_access_key, aws_secret_access_key } = require('./config.js');
 const s3 = new AWS.S3({
     accessKeyId: aws_access_key,
@@ -7,30 +8,36 @@ const s3 = new AWS.S3({
 });
 
 function test(params) {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         const key = params.key;
         const bucketParams = {
             Bucket: 'mybucket-test-openwhisk',
             Key: key
         }
 
-        const rs = s3.getObject(bucketParams).createReadStream();
-        const uploadParams = {
-            Bucket: 'mybucket-test-openwhisk',
-            Key: 'thumbnails/' + key,
-            Body: rs
-        }
-        const uploadPromise = s3.upload(uploadParams).promise();
-        uploadPromise.then((uploaded) => {
-            console.log('Uplaoded: ', uploaded)
-            resolve({
-                msg: 'Image processed and uploaded'
+        const rs = await s3.getObject(bucketParams).promise();
+        console.log('RS: ', rs);
+        const image = await jimp.read(rs.Body)
+        const result = await image.resize(256, 256).grayscale().getBuffer('image/png', function(err,buffer) {
+            console.log('Buffer: ', buffer);
+            const uploadParams = {
+                Bucket: 'mybucket-test-openwhisk',
+                Key: 'thumbnails/' + key,
+                Body: buffer
+            }
+            const uploadPromise = s3.upload(uploadParams).promise();
+            uploadPromise.then((uploaded) => {
+                console.log('Uplaoded: ', uploaded)
+                resolve({
+                    msg: 'Image processed and uploaded'
+                })
+            }).catch((err) => {
+                reject({
+                    msg: 'Image processing failed'
+                })
             })
-        }).catch((err) => {
-            reject({
-                msg: 'Image processing failed'
-            })
-        })
+        });
+        
     })
     
 }
