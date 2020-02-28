@@ -7,28 +7,32 @@ const s3 = new AWS.S3({
 });
 
 function test(params) {
-    const key = params.key;
-    const bucketParams = {
-        Bucket: 'mybucket-test-openwhisk',
-        Key: key
-    }
+    return new Promise((resolve, reject) => {
+        const key = params.key;
+        const bucketParams = {
+            Bucket: 'mybucket-test-openwhisk',
+            Key: key
+        }
 
-    const rs = s3.getObject(bucketParams).createReadStream();
-    const uploadParams = {
-        Bucket: 'mybucket-test-openwhisk',
-        Key: 'thumbnails/' + key,
-        Body: rs
-    }
-    const uploadPromise = s3.upload(uploadParams).promise();
-    uploadPromise.then((uploaded) => {
-        return {
-            msg: 'Image processed and uploaded'
+        const rs = s3.getObject(bucketParams).createReadStream();
+        const uploadParams = {
+            Bucket: 'mybucket-test-openwhisk',
+            Key: 'thumbnails/' + key,
+            Body: rs
         }
-    }).catch((err) => {
-        return {
-            msg: 'Image processing failed'
-        }
+        const uploadPromise = s3.upload(uploadParams).promise();
+        uploadPromise.then((uploaded) => {
+            console.log('Uplaoded: ', uploaded)
+            resolve({
+                msg: 'Image processed and uploaded'
+            })
+        }).catch((err) => {
+            reject({
+                msg: 'Image processing failed'
+            })
+        })
     })
+    
 }
 
 exports.main = test
