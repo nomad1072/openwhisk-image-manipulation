@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 const jimp = require('jimp');
-const { aws_access_key, aws_secret_access_key } = require('./config.js');
+const { aws_access_key, aws_secret_access_key } = require('./config');
 const s3 = new AWS.S3({
     accessKeyId: aws_access_key,
     secretAccessKey: aws_secret_access_key

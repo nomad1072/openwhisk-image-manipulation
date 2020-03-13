@@ -8,18 +8,20 @@ module.exports.blocking = function(params) {
 
     return new Promise((resolve, reject) => {
         const key = params.KEY;
+	console.log('__DIRNAME: ', __dirname);
         const rs = fs.createReadStream(path.join(__dirname, '../images', key));
-
+        console.log('RS: ', rs);
         const uploadParams = {
             Bucket: params.BUCKET,
             Key: key,
             Body: rs
         }
         const uploadPromise = s3.upload(uploadParams).promise();
+        console.log('upload promise: ', uploadPromise);
         uploadPromise.then((uploaded) => {
             console.log('Uplaoded: ', uploaded)
             var request = require("request");
-            var rp = require("request-promise");
+	    console.log('HOST: ', params.OW_HOST);
             var options = { 
                 method: 'POST',
                 url: `https://${params.OW_HOST}/api/v1/namespaces/_/actions/processImage`,
