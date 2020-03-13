@@ -21,13 +21,18 @@ module.exports.blocking = function(params) {
         uploadPromise.then((uploaded) => {
             console.log('Uplaoded: ', uploaded)
             var request = require("request");
-	    console.log('HOST: ', params.OW_HOST);
+            console.log('HOST: ', params.OW_HOST);
             var options = { 
                 method: 'POST',
                 url: `https://${params.OW_HOST}/api/v1/namespaces/_/actions/processImage`,
                 qs: { blocking: 'true' },
                 headers: { 'Content-Type': 'application/json' },
-                body: { key: key },
+                body: { 
+                    KEY: key,
+                    AWS_ACCESS_KEY: params.AWS_ACCESS_KEY,
+                    AWS_SECRET: params.AWS_SECRET,
+                    BUCKET: params.BUCKET 
+                },
                 rejectUnauthorized: false,
                 json: true,
                 auth: {
