@@ -28,10 +28,10 @@ module.exports.blocking = function(params) {
                 qs: { blocking: 'true' },
                 headers: { 'Content-Type': 'application/json' },
                 body: { 
-                    KEY: key,
-                    AWS_ACCESS_KEY: params.AWS_ACCESS_KEY,
-                    AWS_SECRET: params.AWS_SECRET,
-                    BUCKET: params.BUCKET 
+                    'KEY': key,
+                    'AWS_ACCESS_KEY': params.AWS_ACCESS_KEY,
+                    'AWS_SECRET': params.AWS_SECRET,
+                    'BUCKET': params.BUCKET 
                 },
                 rejectUnauthorized: false,
                 json: true,
