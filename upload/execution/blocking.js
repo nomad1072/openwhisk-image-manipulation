@@ -8,7 +8,7 @@ module.exports.blocking = function(params) {
 
     return new Promise((resolve, reject) => {
         const key = params.KEY;
-        const rs = fs.createReadStream(path.join(__dirname, '../images', KEY));
+        const rs = fs.createReadStream(path.join(__dirname, '../images', key));
 
         const uploadParams = {
             Bucket: params.BUCKET,
