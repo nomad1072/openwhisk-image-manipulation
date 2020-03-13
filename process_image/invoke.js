@@ -1,4 +1,4 @@
-const { main } = require('./function')
+const { main } = require('./function.js')
 
 main({ key: '1.png' }).then((code) => {
     console.log('Code: ', code);
