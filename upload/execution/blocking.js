@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports.blocking = function(params) {
 
-    const s3 = AWS.S3({ accessKeyId: params.AWS_ACCESS_KEY, secretAccessKey: params.AWS_SECRET });
+    const s3 = new AWS.S3({ accessKeyId: params.AWS_ACCESS_KEY, secretAccessKey: params.AWS_SECRET });
 
     return new Promise((resolve, reject) => {
         const key = params.KEY;
