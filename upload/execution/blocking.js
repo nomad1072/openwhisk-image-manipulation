@@ -28,10 +28,11 @@ module.exports.blocking = function(params) {
                 qs: { blocking: 'true' },
                 headers: { 'Content-Type': 'application/json' },
                 body: { 
-                    'KEY': key,
-                    'AWS_ACCESS_KEY': params.AWS_ACCESS_KEY,
-                    'AWS_SECRET': params.AWS_SECRET,
-                    'BUCKET': params.BUCKET 
+                    KEY: key,
+		    AWS_ACCESS_KEY: params.AWS_ACCESS_KEY,
+		    AWS_SECRET: params.AWS_SECRET,
+		    BUCKET: params.BUCKET
+                    
                 },
                 rejectUnauthorized: false,
                 json: true,
@@ -40,9 +41,10 @@ module.exports.blocking = function(params) {
                     pass: params.OW_AUTH_PASS
                 }	
             };
+	    console.log('Options: ', options);
             request(options, function (error, response, body) {
-                if (error) { reject({"msg": "Failed", err: error}) };
-                console.log(body);
+                if (error) { console.log('Error: ', error); reject({"msg": "Failed", err: error}) };
+                console.log('Body: ', body);
                 resolve({"msg": "invoked successfully", body: body})
             });
     }).catch((err) => {
