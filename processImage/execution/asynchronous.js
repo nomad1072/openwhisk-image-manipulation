@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports.asynchronous = function(params) {
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         
         const key = params.KEY;
         const fileBuffer = fs.readFileSync(path.join("/tmp/images", key));
