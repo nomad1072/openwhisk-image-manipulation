@@ -3,6 +3,9 @@ import time
 import logging
 import requests
 import base64
+import json
+
+from PIL import Image
 
 from watchdog.observers import Observer
 from watchdog.events import LoggingEventHandler, FileSystemEventHandler
@@ -13,15 +16,19 @@ class Event(FileSystemEventHandler):
         print('Foobar')
         print('Event: ', event.src_path, event.event_type)
 
-        image = open(event.src_path, 'rb').read()
-        img = base64.b64encode(image)
-        data = {
-            "content": img
-        }
-        # headers = {'content-type': 'image/png'}
-        OW_HOST = "127.0.0.1:3000"
-        image_url = "http://" + OW_HOST + "/api/image"
-        response = requests.post(image_url, data=data)
+        image = Image.open(event.src_path)
+        image.show()
+        # img = base64.encodebytes(image)
+        # files = {
+        #     "content": "hello",
+        #     "img": image.decode('ascii')
+        # }
+        # headers = {
+        #     'Content-Type': "application/json"
+        # }
+        # OW_HOST = "127.0.0.1:3000"
+        # image_url = "http://" + OW_HOST + "/api/image"
+        # response = requests.post(image_url, data=json.dumps(files), headers=headers)
         # print('Image: ', image)
         # OW_HOST = "127.0.0.1"
         # image.show()
