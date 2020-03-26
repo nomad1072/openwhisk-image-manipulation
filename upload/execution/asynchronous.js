@@ -1,17 +1,32 @@
 const fs = require('fs');
 const path = require('path');
+const request = require('request');
 
 module.exports.asynchronous = function(params) {
     
-    const key = params.KEY;
-    const rs = fs.createReadStream(path.join(__dirname, '../images', key));
-    const ws = fs.createWriteStream(path.join("/tmp", '/images', key));
+    return new Promise(async (resolve, reject) => {
+        const key = params.KEY;
+        const fileBuffer = fs.readFileSync(path.join(__dirname, '../images', key));
 
-    rs.on("end", function() {
-        resolve({ msg: "Image piped successfully to directory "});
-    });
-    rs.on("errror", function() {
-        reject({ msg: "Failed to pipe image to directory "});
-    })
-    rs.pipe(ws);
+        const options = {
+            method: 'POST', 
+            url: `http://${params.OW_HOST}:3001/api/file`,
+            headers: { 'Content-Type': 'application/json' },
+            body: {
+                'app': 'serverless-image-process',
+                'path': 'images',
+                'fileName': key,
+                'content': fileBuffer
+            },
+            rejectUnauthorized: false,
+            json: true
+        };
+
+        request(options, function(error, response, body) {
+            if(error) {
+                reject({ "msg": "Failed", err: error })
+            }
+            resolve({ "msg": "invoked successfully ", body: body });
+        });
+    }); 
 }

@@ -5,9 +5,9 @@ function test(params) {
     console.log('Params: ', params);
 
     if(params.EXECUTION_TYPE === 'blocking') {
-        return blocking(params)
+        return blocking(params);
     } else if(params.EXECUTION_TYPE === 'asynchronous') {
-
+        return asynchronous(params);
     }
 }
 

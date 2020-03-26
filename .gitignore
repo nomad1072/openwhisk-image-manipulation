@@ -1,3 +1,4 @@
 config.js
 node_modules
 process_image/node_modules
+process_image/test.js
